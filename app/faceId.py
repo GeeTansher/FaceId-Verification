@@ -57,7 +57,7 @@ class CamApp(App):
 
         # Load tensorflow model
         self.model = tf.keras.models.load_model(
-            'siamesemodel.h5', custom_objects={'L1Dist': L1Dist})
+            'siamesemodelfinal.h5', custom_objects={'L1Dist': L1Dist})
 
         # Setup video capture device
         self.capture = cv2.VideoCapture(0)
@@ -71,7 +71,7 @@ class CamApp(App):
             'app', 'application_data', 'verification_images')
         for img in os.listdir(SAVE_PATH):
             os.remove(os.path.join(SAVE_PATH, img))
-        i = 20
+        i = 50
         while i:
             ret, frame = self.capture.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -167,7 +167,7 @@ class CamApp(App):
             verification = detection / \
                 len(os.listdir(os.path.join(
                     'app', 'application_data', 'verification_images')))
-            verified = verification > verification_threshold
+            verified = verification >= verification_threshold
 
             # Set verification text
             self.verification_label.text = 'Verified' if verified == True else 'Unverified'
